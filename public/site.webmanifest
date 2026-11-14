@@ -1,0 +1,2 @@
+{ "name": "Masar", "short_name": "Masar", "description": "3D hiking trails from LiDAR", "start_url": "/trails", "display": "standalone",
+  "background_color": "#F3F4EE", "theme_color": "#13252C", "icons": [{ "src": "/img/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }, { "src": "/img/icon-512.png", "sizes": "512x512", "type": "image/png" }, { "src": "/img/icon-192.png", "sizes": "192x192", "type": "image/png" }] }

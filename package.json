@@ -1,0 +1,18 @@
+{
+  "name": "masar",
+  "version": "1.0.0",
+  "description": "Masar — turn LiDAR point clouds and aerial imagery into a walkable 3D hiking trail with a trail report.",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "sample": "node scripts/make-sample.js",
+    "add-user": "node scripts/add-user.js",
+    "test": "node scripts/selftest.js"
+  },
+  "optionalDependencies": {
+    "laz-perf": "^0.0.7"
+  }
+}

@@ -1,0 +1,22 @@
+# Masar behind a Cloudflare Tunnel. Copy .env.example to .env first and set ADMIN_* and TUNNEL_TOKEN.
+services:
+  masar:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATA_DIR: /data
+    volumes:
+      - ./data:/data
+    ports:
+      - "3000:3000"        # remove this line if the app should only be reachable through the tunnel
+
+  # Uncomment to run the tunnel next to the app. In the Cloudflare dashboard, point the tunnel's
+  # public hostname at  http://masar:3000
+  # cloudflared:
+  #   image: cloudflare/cloudflared:latest
+  #   restart: unless-stopped
+  #   command: tunnel --no-autoupdate run
+  #   environment:
+  #     TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+  #   depends_on: [masar]

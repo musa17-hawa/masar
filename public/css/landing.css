@@ -1,0 +1,84 @@
+/* Landing page: a pinned 3D sheet that changes as you scroll, with the story running down the start-side column. */
+.site-header { position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 40; height: var(--header-h); display: flex; align-items: center; gap: 1.5rem;
+  padding-inline: clamp(1rem, 4vw, 3rem); background: color-mix(in srgb, var(--paper) 82%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+.site-header.scrolled { border-bottom-color: var(--line); }
+.site-nav { display: flex; gap: 1.5rem; margin-inline-start: 1.5rem; }
+.site-nav a { text-decoration: none; color: var(--ink-2); font-size: .95rem; font-weight: 500; }
+.site-nav a:hover { color: var(--ink); }
+@media (max-width: 760px) { .site-nav { display: none; } }
+
+.story { position: relative; }
+.stage { position: sticky; top: 0; height: 100dvh; overflow: hidden; }
+.stage canvas { position: absolute; inset-block: var(--header-h) 5.2rem; inset-inline-end: 0; width: 62%; height: calc(100% - var(--header-h) - 5.2rem); }
+.stage-note { position: absolute; inset-inline-end: 31%; inset-block-start: 50%; transform: translate(50%, -50%); margin: 0; color: var(--ink-3); font-size: .9rem; }
+[dir="rtl"] .stage-note { transform: translate(-50%, -50%); }
+.pins { position: absolute; inset-block: var(--header-h) 5.2rem; inset-inline-end: 0; width: 62%; pointer-events: none; overflow: hidden; }
+.pin { position: absolute; top: 0; left: 0; display: flex; align-items: center; gap: .4rem; padding: .2rem .55rem .2rem .3rem; background: var(--sheet); border: 1.5px solid var(--ink); border-radius: 99px;
+  font-size: .8rem; font-weight: 500; white-space: nowrap; will-change: transform; }
+.pin i { width: .7rem; height: .7rem; border-radius: 50%; background: var(--signal); border: 1.5px solid var(--ink); }
+.pin.end i { background: var(--blaze); }
+
+.chapters { position: relative; margin-top: -100dvh; pointer-events: none; }
+.chapter { min-height: 100dvh; display: grid; align-content: center; padding: var(--header-h) clamp(1.25rem, 6vw, 6rem) 6.5rem; }
+.chapter > div { max-width: 27rem; pointer-events: auto; }
+.chapter h2 { font-size: clamp(1.9rem, 3.4vw, 2.9rem); }
+.chapter p { font-size: 1.075rem; color: var(--ink-2); }
+.chapter.hero > div { max-width: 34rem; }
+.chapter.hero h1 { font-size: clamp(2.7rem, 6.2vw, 5.2rem); line-height: .96; letter-spacing: -.02em; margin-bottom: .45em; }
+.chapter.hero .lead { font-size: clamp(1.1rem, 1.6vw, 1.3rem); color: var(--ink); max-width: 30rem; }
+.scroll-hint { margin-top: 2.2rem; font-size: .9rem !important; color: var(--ink-3) !important; }
+.step { display: flex; align-items: center; gap: .6rem; font-weight: 500; font-size: .95rem !important; color: var(--ink) !important; margin-bottom: .8rem; }
+.key { list-style: none; padding: 0; margin: 1.2rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; font-size: .9rem; }
+.key li { display: flex; align-items: center; gap: .4rem; }
+.key i { width: .8rem; height: .8rem; border-radius: 50%; }
+
+/* the rail: the trail's own elevation profile, with a marker that climbs as you scroll */
+.rail { position: absolute; inset-inline: clamp(1.25rem, 6vw, 6rem); inset-block-end: 1.1rem; height: 4.6rem; }
+.rail svg { width: 100%; height: 2.4rem; overflow: visible; }
+.rail .profile { fill: none; stroke: var(--line-2); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.rail .walked { fill: none; stroke: var(--ink); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.rail .dot { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--blaze); border: 2.5px solid var(--sheet); box-shadow: 0 0 0 1.5px var(--ink); }
+.rail ol { list-style: none; margin: .5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); font-size: .82rem; }
+.rail li a { display: inline-flex; gap: .35rem; text-decoration: none; color: var(--ink-3); padding-block: .2rem; }
+.rail li a b { font-weight: 500; font-variant-numeric: tabular-nums; }
+.rail li.on a { color: var(--ink); font-weight: 500; }
+
+@media (max-width: 860px) {
+  .stage canvas, .pins { width: 100%; height: 52dvh; inset-block: var(--header-h) auto; }
+  .stage-note { inset-inline-end: 50%; inset-block-start: 32%; }
+  .chapter { align-content: end; padding: 0 1rem 6.2rem; }
+  .chapter > div, .chapter.hero > div { max-width: none; background: color-mix(in srgb, var(--sheet) 94%, transparent); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.1rem 1.2rem; backdrop-filter: blur(6px); }
+  .chapter.hero h1 { font-size: clamp(2.1rem, 9vw, 2.9rem); }
+  .chapter p { font-size: 1rem; }
+  .scroll-hint { margin-top: 1rem; }
+  .rail { inset-inline: 1rem; inset-block-end: .6rem; height: 4.2rem; }
+  .rail li a span { display: none; }
+}
+
+.band { max-width: 1120px; margin: 0 auto; padding: clamp(3.5rem, 9vw, 7rem) clamp(1.25rem, 4vw, 2rem) 0; }
+.band:last-of-type { padding-bottom: clamp(3.5rem, 9vw, 7rem); }
+.band-head { max-width: 40rem; margin-bottom: 2rem; }
+.band-head h2 { font-size: clamp(1.9rem, 3.6vw, 3rem); }
+.band-head p { font-size: 1.1rem; color: var(--ink-2); }
+.sample-report { padding: clamp(1rem, 3vw, 2rem); display: grid; gap: 1.75rem; margin-bottom: 1rem; }
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.figures div { background: var(--sheet); padding: 1rem 1.1rem; }
+.figures b { display: block; font-family: var(--font-display); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.figures span { font-size: .875rem; color: var(--ink-2); }
+@media (max-width: 640px) { .figures { grid-template-columns: 1fr 1fr; } }
+.sample-cols { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2rem; }
+@media (max-width: 800px) { .sample-cols { grid-template-columns: 1fr; } }
+.sample-cols h3 { font-size: 1.05rem; margin-bottom: .9rem; }
+.found { list-style: none; padding: 0; margin: 0; display: grid; gap: .55rem; font-size: .95rem; }
+.found li { display: grid; grid-template-columns: auto 1fr auto; gap: .6rem; align-items: center; }
+.found .icon { color: var(--blaze); }
+.found small { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+.inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 3rem; margin: 0; }
+.inputs > div { padding: 1.4rem 0; border-top: 1px solid var(--line-2); }
+.inputs dt { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; margin-bottom: .35rem; }
+.inputs dd { margin: 0; color: var(--ink-2); max-width: 34rem; }
+@media (max-width: 720px) { .inputs { grid-template-columns: 1fr; } }
+.course { display: grid; gap: .5rem; justify-items: start; }
+.site-footer { border-top: 1px solid var(--line); padding: 2rem clamp(1.25rem, 4vw, 3rem) 3rem; display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; justify-content: space-between; }
+.site-footer p { margin: 0; max-width: 44rem; }

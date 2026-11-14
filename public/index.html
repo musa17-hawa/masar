@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Masar — walk a trail in 3D before you hike it</title>
+  <meta name="description" content="Masar turns LiDAR point clouds and aerial photos into a 3D hiking trail you can walk through on screen, with a report on climb, footing and water.">
+  <meta name="theme-color" content="#F3F4EE">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Sans+Hebrew:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/masar.css">
+  <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body class="landing">
+  <header class="site-header">
+    <a class="brand" href="/"><img src="/img/logo.svg" alt="" width="30" height="30"><span>Masar</span></a>
+    <nav class="site-nav" aria-label="Page">
+      <a href="#story" data-i18n="land.nav.how">How a trail is made</a>
+      <a href="#report" data-i18n="land.nav.report">The report</a>
+      <a href="#data" data-i18n="land.nav.data">Your data</a>
+    </nav>
+    <div class="header-end" id="header-end"><a class="btn sm" id="cta-top" href="/login" data-i18n="land.signin">Sign in</a></div>
+  </header>
+
+  <main>
+    <section class="story" id="story" aria-label="How a trail is made">
+      <div class="stage">
+        <canvas id="scene" aria-hidden="true"></canvas>
+        <div class="pins" id="pins" aria-hidden="true"></div>
+        <p class="stage-note" id="stage-note" data-i18n="land.loading">Loading the 3D scene…</p>
+        <div class="rail" id="rail"></div>
+      </div>
+      <div class="chapters">
+        <article class="chapter hero" data-ch="0">
+          <div>
+            <h1 data-i18n="land.hero.title">See every step of the trail before you take it.</h1>
+            <p class="lead" data-i18n="land.hero.lead">Masar turns LiDAR scans and aerial photos into a 3D trail you can walk through on screen, with a report on the climb, the footing and the water along the way.</p>
+            <div class="btn-row">
+              <a class="btn go" id="cta-hero" href="/login" data-i18n="land.hero.cta">Open the studio</a>
+              <a class="btn ghost" href="#ch-1" data-i18n="land.hero.more">See how a trail is made</a>
+            </div>
+            <p class="scroll-hint" data-i18n="land.hero.hint">Scroll, and the trail builds itself.</p>
+          </div>
+        </article>
+        <article class="chapter" data-ch="1" id="ch-1">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s1.step">Step 1</span></p>
+            <h2 data-i18n="land.s1.title">It starts as laser pulses</h2>
+            <p data-i18n="land.s1.body">An aircraft, or the phone in your hand, sweeps the ground with LiDAR. Every pulse that comes back is one measured point. Millions of them, with no colour and no meaning yet.</p>
+          </div>
+        </article>
+        <article class="chapter" data-ch="2" id="ch-2">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s2.step">Step 2</span></p>
+            <h2 data-i18n="land.s2.title">Ground, trees, rock</h2>
+            <p data-i18n="land.s2.body">Masar sorts the points: what is ground, what grows on it, what was built on it. Take the trees away and the bare terrain underneath becomes a continuous surface.</p>
+            <ul class="key">
+              <li><i style="background:#B38C61"></i><span data-i18n="cls.ground">Ground</span></li>
+              <li><i style="background:#539150"></i><span data-i18n="cls.vegetation">Vegetation</span></li>
+              <li><i style="background:#D8412F"></i><span data-i18n="cls.building">Buildings</span></li>
+              <li><i style="background:#2E7DA6"></i><span data-i18n="cls.water">Water</span></li>
+            </ul>
+          </div>
+        </article>
+        <article class="chapter" data-ch="3" id="ch-3">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s3.step">Step 3</span></p>
+            <h2 data-i18n="land.s3.title">Colour from the air</h2>
+            <p data-i18n="land.s3.body">An aerial image is laid over the terrain, and each point takes the colour of the pixel above it. The cloud starts to look like the place.</p>
+          </div>
+        </article>
+        <article class="chapter" data-ch="4" id="ch-4">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s4.step">Step 4</span></p>
+            <h2 data-i18n="land.s4.title">The trail, measured</h2>
+            <p data-i18n="land.s4.body">Upload a GPS track or draw the line yourself. Masar follows it across the model and measures the grade, the steps, the obstacles and the stream beds it crosses.</p>
+          </div>
+        </article>
+        <article class="chapter" data-ch="5" id="ch-5">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s5.step">Step 5</span></p>
+            <h2 data-i18n="land.s5.title">Walk it at eye level</h2>
+            <p data-i18n="land.s5.body">Drop to walking height and move along the trail. Look around at a hairpin, stop at a steep pitch, see what the footing is like before your boots are on it.</p>
+          </div>
+        </article>
+        <article class="chapter" data-ch="6" id="ch-6">
+          <div>
+            <p class="step"><span class="blaze on"></span><span data-i18n="land.s6.step">Step 6</span></p>
+            <h2 data-i18n="land.s6.title">Then read the report</h2>
+            <p data-i18n="land.s6.body">Distance, climb, walking time and a difficulty rating, each traced back to the measurement it came from.</p>
+            <a class="btn ghost" href="#report" data-i18n="land.s6.cta">See a sample report</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="band" id="report">
+      <div class="band-head">
+        <h2 data-i18n="land.report.title">A report that shows its working</h2>
+        <p data-i18n="land.report.lead">This is what Masar measured on the trail above. Every figure links back to a place on the 3D model.</p>
+      </div>
+      <div class="sample-report sheet" id="sample-report"></div>
+      <p class="small muted" data-i18n="land.report.note">The scene on this page is synthetic terrain, processed by the same pipeline as real survey data.</p>
+    </section>
+
+    <section class="band" id="data">
+      <div class="band-head">
+        <h2 data-i18n="land.data.title">What you bring</h2>
+        <p data-i18n="land.data.lead">One point cloud is enough to start. Everything else makes the result richer.</p>
+      </div>
+      <dl class="inputs">
+        <div><dt data-i18n="land.data.cloud">A LiDAR point cloud</dt><dd data-i18n="land.data.cloudBody">Airborne survey tiles or a phone scan. LAS, LAZ, PLY or XYZ; zipped LAS straight from swisstopo works as it is.</dd></div>
+        <div><dt data-i18n="land.data.image">An aerial image</dt><dd data-i18n="land.data.imageBody">A GeoTIFF, or a JPG or PNG with a world file. For Swiss coordinates Masar can fetch the image for you.</dd></div>
+        <div><dt data-i18n="land.data.track">A GPS track</dt><dd data-i18n="land.data.trackBody">GPX, KML or GeoJSON from any hiking app. No track? Draw the trail on the model, or adopt a mapped path.</dd></div>
+        <div><dt data-i18n="land.data.phone">Or just a phone</dt><dd data-i18n="land.data.phoneBody">Where no survey exists, scan the trail with a LiDAR iPhone. Masar coaches you through the capture step by step.</dd></div>
+      </dl>
+    </section>
+
+    <section class="band course">
+      <div class="band-head">
+        <h2 data-i18n="land.course.title">From LiDAR sensor to a product</h2>
+        <p data-i18n="land.course.body">Masar is a course project by a team of three. The brief: take raw sensor returns all the way to something a hiker can use.</p>
+      </div>
+      <a class="btn go" id="cta-end" href="/login" data-i18n="land.hero.cta">Open the studio</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="/"><img src="/img/logo.svg" alt="" width="26" height="26"><span>Masar</span></a>
+    <p class="small muted" data-i18n="land.footer">Masar is the Arabic word for a trail. Estimates on this site support planning; they do not replace judgement on the mountain.</p>
+  </footer>
+  <script type="module" src="/js/pages/landing.js"></script>
+</body>
+</html>
