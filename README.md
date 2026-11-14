@@ -191,18 +191,25 @@ Copy `.env.example` to `.env`. Every value is optional.
 
 Masar is ready for this: session cookies become `Secure` when the request arrives over HTTPS, the client IP is read from Cloudflare's header for sign-in rate limiting, and uploads are chunked below Cloudflare's 100 MB request limit.
 
-### With Docker Compose
+### With Docker Compose (tunnel included)
+
+The compose file runs Masar and its own `cloudflared`, so the only Cloudflare value you need is the tunnel token.
+
+**Once, in the Cloudflare dashboard** (Zero Trust → Networks → Tunnels):
+
+1. **Create a tunnel** of type Cloudflared, named for example `masar`. Make a new one: do not reuse the token of a tunnel your other sites use, or Cloudflare may send Masar's visitors to a connector that cannot reach it.
+2. On the *Install connector* screen, copy the token: the long string after `--token` in the command shown.
+3. Add a **public hostname**: subdomain `masar`, your domain, type `HTTP`, URL `masar:3000`. (The hostname lives in Cloudflare, not in the token, so this step cannot be skipped.)
+
+**On the server:**
 
 ```bash
-cp .env.example .env        # set ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
+cp .env.example .env        # paste TUNNEL_TOKEN, set ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 docker compose up -d --build
+docker compose logs cloudflared   # "Registered tunnel connection" means it is connected
 ```
 
-The app listens on port 3000 and keeps its data in `./data`.
-
-1. In the Cloudflare Zero Trust dashboard, create a tunnel (or open your existing one) and add a **public hostname**, for example `masar.yourdomain.com`.
-2. Set its service to `http://<homelab-ip>:3000` if `cloudflared` already runs on the host, or to `http://masar:3000` if you run `cloudflared` inside this compose file (uncomment the `cloudflared` service and put the tunnel token in `.env` as `TUNNEL_TOKEN`).
-3. Open `https://masar.yourdomain.com`. Sign in with the admin account, then add your teammates under **Team**.
+Open `https://masar.yourdomain.com`, sign in with the admin account, and add your teammates under **Team**. Masar is also on the LAN at port `MASAR_PORT` (3000 by default).
 
 ### Without Docker
 
